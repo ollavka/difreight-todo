@@ -1,7 +1,6 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import { cuid } from '@adonisjs/core/helpers'
 import app from '@adonisjs/core/services/app'
-import { ApiError } from '#exceptions/api_error_exception'
 import fs from 'fs'
 
 type MultipartFile = ReturnType<HttpContext['request']['file']>
@@ -16,14 +15,14 @@ export const save = async (file: MultipartFile) => {
   })
 }
 
-export const remove = async (filePath?: string) => {
+export const remove = async (response: HttpContext['response'], filePath?: string) => {
   if (!filePath || !fs.existsSync(filePath)) {
     return
   }
 
   fs.unlink(filePath, (err) => {
     if (err) {
-      return ApiError.InternalError('File deletion failed')
+      return response.status(500).send('File deletion failed')
     }
   })
 }

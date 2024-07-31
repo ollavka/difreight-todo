@@ -1,5 +1,4 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import { ApiError } from '#exceptions/api_error_exception'
 import Task from '#models/task'
 import fs from 'fs'
 import path from 'path'
@@ -19,7 +18,7 @@ export default class FilesController {
 
       return task
     } catch (_err) {
-      return ApiError.NotFound('Task not found')
+      return response.status(404).send({ message: 'Task not found', errors: null })
     }
   }
 }

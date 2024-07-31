@@ -7,6 +7,7 @@ router.get('/', async ({ response }) => {
   return response.status(200).send('OK')
 })
 
+// @ts-ignore
 router.resource('tasks', TasksController).apiOnly()
 
 router.get('/files/:taskId', [FilesContoller, 'download'])

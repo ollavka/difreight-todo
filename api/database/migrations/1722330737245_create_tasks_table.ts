@@ -8,6 +8,7 @@ export default class extends BaseSchema {
       table.string('id').primary()
       table.string('title').notNullable()
       table.string('description').notNullable()
+      table.boolean('completed').defaultTo(false)
       table.string('file_path')
       table.timestamp('created_at')
       table.timestamp('updated_at')

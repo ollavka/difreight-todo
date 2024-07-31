@@ -55,6 +55,7 @@ export default class TasksController {
       title,
       description,
       filePath: file?.filePath ?? '',
+      completed: false,
     })
 
     return newTask
@@ -68,7 +69,7 @@ export default class TasksController {
       extnames: this.availableFileExtnames,
     })
 
-    const { title = '', description = '' } = request.only(['title', 'description'])
+    const { title = '', description = '', completed = false } = request.only(['title', 'description', 'completed'])
 
     if (!title || !description || (file && !file?.isValid)) {
       const errors: Record<string, string> = taskService.getTaskErrors(
@@ -90,7 +91,7 @@ export default class TasksController {
 
       task.filePath = file?.filePath ?? ''
 
-      await task.merge({ ...request.only(['title', 'description']) }).save()
+      await task.merge({ title, description, completed }).save()
 
       return task
     } catch (_err) {

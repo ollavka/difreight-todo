@@ -12,6 +12,9 @@ export default class Task extends BaseModel {
   declare description: string
 
   @column()
+  declare completed: boolean
+
+  @column()
   declare filePath: string
 
   @column.dateTime({ autoCreate: true })

@@ -12,7 +12,7 @@ This project is a simple Todo List application with separate UI and API folders.
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/todo-list.git todo-list
+git clone https://github.com/ollavka/difreight-todo.git todo-list
 cd todo-list
 ```
 

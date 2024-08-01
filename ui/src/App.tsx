@@ -74,6 +74,7 @@ function App() {
       formData.append('title', task.title);
       formData.append('description', task.description);
       formData.append('status', newStatus);
+      formData.append('file', task.filePath);
 
       setTasks((prev) =>
         prev.map(
@@ -98,6 +99,7 @@ function App() {
       const formData = new FormData(event.target as HTMLFormElement);
 
       formData.append('status', selectedTask?.status as TaskStatusKey);
+      formData.append('file', selectedTask?.filePath!);
 
       const updatedTask = (await executeRequest(() =>
         taskService.update(selectedTask?.id as string, formData)
@@ -114,13 +116,16 @@ function App() {
     [selectedTask, executeRequest]
   );
 
-  const onRemoveTask = useCallback(async (taskId: string) => {
-    setTasks((prev) => prev.filter((task) => task.id !== taskId));
+  const onRemoveTask = useCallback(
+    async (taskId: string) => {
+      setTasks((prev) => prev.filter((task) => task.id !== taskId));
 
-    await executeRequest(() => taskService.remove(taskId));
+      await executeRequest(() => taskService.remove(taskId));
 
-    toast.success('Task has been successfully deleted');
-  }, [executeRequest]);
+      toast.success('Task has been successfully deleted');
+    },
+    [executeRequest]
+  );
 
   return (
     <div className="mx-auto my-24 max-w-[1400px] px-5 flex items-center flex-col gap-10">

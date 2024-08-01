@@ -94,6 +94,13 @@ export default class TasksController {
 
     try {
       const task = await Task.findOrFail(params.id)
+      const filePath = request.only(['file'])?.file ?? ''
+
+      if (!file && filePath) {
+        await task.merge({ title, description, status, filePath }).save()
+
+        return response.send(task)
+      }
 
       await fileService.remove(response, task.filePath)
 

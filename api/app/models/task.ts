@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@adonisjs/lucid/orm'
+import { TaskStatus } from '#types'
 
 export default class Task extends BaseModel {
   @column({ isPrimary: true })
@@ -12,7 +13,7 @@ export default class Task extends BaseModel {
   declare description: string
 
   @column()
-  declare completed: boolean
+  declare status: TaskStatus
 
   @column()
   declare filePath: string

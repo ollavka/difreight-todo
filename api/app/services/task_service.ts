@@ -4,7 +4,7 @@ export const getTaskErrors = ({ title, description, file }: TaskDTO, availableFi
   const errors: Record<string, string> = {
     title: '',
     description: '',
-    filePath: '',
+    file: '',
   }
 
   if (!title) {
@@ -16,7 +16,7 @@ export const getTaskErrors = ({ title, description, file }: TaskDTO, availableFi
   }
 
   if (!file?.isValid) {
-    errors.filePath = `A file with this file extension is not supported, use one of these: ${availableFileExtnames.join(', ')}`
+    errors.file = `A file with this file extension is not supported, use one of these: ${availableFileExtnames.join(', ')}`
   }
 
   return errors

@@ -2,6 +2,7 @@ import type { HttpContext } from '@adonisjs/core/http'
 import Task from '#models/task'
 import * as fileService from '#services/file_service'
 import * as taskService from '#services/task_service'
+import { TaskStatus } from '#types'
 
 export default class TasksController {
   /**
@@ -13,7 +14,7 @@ export default class TasksController {
     try {
       const tasks = await Task.all()
 
-      return tasks
+      return response.send(tasks)
     } catch (_err) {
       return response.status(404).send({ message: 'Not found' })
     }
@@ -26,7 +27,7 @@ export default class TasksController {
     try {
       const task = await Task.findOrFail(params.id)
 
-      return task
+      return response.send(task)
     } catch (_err) {
       return response.status(404).send({ message: 'Task not found', errors: null })
     }
@@ -58,10 +59,10 @@ export default class TasksController {
       title,
       description,
       filePath: file?.filePath ?? '',
-      completed: false,
+      status: TaskStatus.ToDo,
     })
 
-    return newTask
+    return response.status(201).send(newTask)
   }
 
   /**
@@ -75,8 +76,12 @@ export default class TasksController {
     const {
       title = '',
       description = '',
-      completed = false,
-    } = request.only(['title', 'description', 'completed'])
+      status = TaskStatus.ToDo,
+    } = request.only(['title', 'description', 'status'])
+
+    if (!Object.values(TaskStatus).includes(status)) {
+      return response.status(400).send({ message: 'Invalid task status', errors: null })
+    }
 
     if (!title || !description || (file && !file?.isValid)) {
       const errors: Record<string, string> = taskService.getTaskErrors(
@@ -98,9 +103,9 @@ export default class TasksController {
 
       task.filePath = file?.filePath ?? ''
 
-      await task.merge({ title, description, completed }).save()
+      await task.merge({ title, description, status }).save()
 
-      return task
+      return response.send(task)
     } catch (_err) {
       return response.status(404).send({ message: 'Not found', errors: null })
     }
@@ -117,7 +122,7 @@ export default class TasksController {
 
       await task.delete()
 
-      return
+      return response.status(204)
     } catch (_err) {
       return response.status(404).send({ message: 'Not found', errors: null })
     }

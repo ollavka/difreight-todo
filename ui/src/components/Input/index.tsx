@@ -81,8 +81,11 @@ const FileInput = forwardRef<HTMLInputElement, Props>(
       }
 
       if (defaultValue) {
-        return (defaultValue as string).split(/[\\/]/).pop();
+        return defaultValue as string
       }
+      // if (defaultValue) {
+      //   return (defaultValue as string).split(/[\\/]/).pop();
+      // }
 
       return null;
     }, [filename, additionalRef, defaultValue]);

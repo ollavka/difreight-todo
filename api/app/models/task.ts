@@ -18,6 +18,9 @@ export default class Task extends BaseModel {
   @column()
   declare filePath: string
 
+  @column()
+  declare fileName: string
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 

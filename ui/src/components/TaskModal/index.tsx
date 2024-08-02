@@ -11,7 +11,7 @@ type Props = {
   onClose: () => void;
   onSubmit: (event: FormEvent<HTMLFormElement>) => Promise<void>;
   onReset: () => void;
-  onChangeSelectedTaskFilePath: () => void;
+  onChangeSelectedTaskFile: () => void;
   apiError: ApiError | null;
   selectedTask: Task | null;
   isLoading: boolean;
@@ -28,7 +28,7 @@ export const TaskModal: FC<Props> = ({
   onClose,
   onReset,
   onSubmit,
-  onChangeSelectedTaskFilePath,
+  onChangeSelectedTaskFile,
   apiError,
   isLoading,
   selectedTask,
@@ -60,12 +60,15 @@ export const TaskModal: FC<Props> = ({
     }
   }, [clearErrors, onReset, reset]);
 
-  const onCloseModal = useCallback((event?: MouseEvent<HTMLButtonElement>) => {
-    event?.preventDefault?.();
+  const onCloseModal = useCallback(
+    (event?: MouseEvent<HTMLButtonElement>) => {
+      event?.preventDefault?.();
 
-    onClose();
-    onResetForm();
-  }, [onResetForm, onClose]);
+      onClose();
+      onResetForm();
+    },
+    [onResetForm, onClose]
+  );
 
   useOnClickOutside(modalRef, ({ isClickedOutside }) => {
     if (isClickedOutside && isOpen && !isLoading) {
@@ -124,10 +127,11 @@ export const TaskModal: FC<Props> = ({
           <Input
             label="File"
             type="file"
-            onResetValue={onChangeSelectedTaskFilePath}
+            onResetValue={onChangeSelectedTaskFile}
             errorMessage={errors.file?.message || apiError?.errors?.file}
             additionalRef={inputFileRef}
-            defaultValue={selectedTask?.filePath ?? ''}
+            defaultValue={selectedTask?.fileName ?? ''}
+            // defaultValue={selectedTask?.filePath ?? ''}
             {...register('file', {
               validate: {
                 acceptedFormats: (files) => {

@@ -153,10 +153,11 @@ function App() {
                   setModalIsOpen(false);
                   setSelectedTask(null);
                 }}
-                onChangeSelectedTaskFilePath={() => {
+                onChangeSelectedTaskFile={() => {
                   setSelectedTask((prev) => ({
                     ...(prev as Task),
                     filePath: '',
+                    fileName: '',
                   }));
                 }}
                 onReset={() => {

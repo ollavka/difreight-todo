@@ -11,6 +11,7 @@ export default class extends BaseSchema {
       table.string('description').notNullable()
       table.enum('status', Object.values(TaskStatus)).defaultTo(TaskStatus.ToDo).notNullable()
       table.string('file_path')
+      table.string('file_name')
       table.timestamp('created_at')
       table.timestamp('updated_at')
     })

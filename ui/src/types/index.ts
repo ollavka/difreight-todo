@@ -16,16 +16,17 @@ export type Task = {
   description: string;
   status: TaskStatus;
   filePath: string;
+  fileName: string;
   createdAt: Date;
   updatedAt: Date;
 };
 
-export type TaskStatusKey = `${TaskStatus}`
+export type TaskStatusKey = `${TaskStatus}`;
 
 export type ColumnData = {
   id: TaskStatusKey;
   list: Task[];
-  label: string
+  label: string;
 };
 
 export type Columns = Record<TaskStatus, ColumnData>;

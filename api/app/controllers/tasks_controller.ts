@@ -59,6 +59,7 @@ export default class TasksController {
       title,
       description,
       filePath: file?.filePath ?? '',
+      fileName: file?.clientName ?? '',
       status: TaskStatus.ToDo,
     })
 
@@ -108,9 +109,15 @@ export default class TasksController {
         await fileService.save(file)
       }
 
-      task.filePath = file?.filePath ?? ''
-
-      await task.merge({ title, description, status }).save()
+      await task
+        .merge({
+          title,
+          description,
+          status,
+          filePath: file?.filePath ?? '',
+          fileName: file?.clientName ?? '',
+        })
+        .save()
 
       return response.send(task)
     } catch (_err) {
